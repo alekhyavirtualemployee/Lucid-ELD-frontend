@@ -28,6 +28,7 @@ const Dashboard = () => {
     const[showHeader , setShowHeader] = useState(true)
     const [order, setOrder] = useState(-1);
     const { isMinimize, isMode, vehicles, drivers } = useSelector(state => state.dashboard)
+    const { user } = useSelector((state) => state.auth);
     const [units, setUnits] = useState([]);
     const [driverUnits, setDriverUnits] = useState([]);
     const [mapUnits, setMapUnits] = useState([]);
@@ -41,8 +42,10 @@ const Dashboard = () => {
     const [search, setSearch] = useState("");
     const [open , setOpen] = useState(false);
 
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    const tz = user && user.companyInfo && user.companyInfo.timeZoneId ? user.companyInfo.timeZoneId : "America/Los_Angeles";
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const tz = userInfo && userInfo.companyInfo && userInfo.companyInfo.timeZoneId ? userInfo.companyInfo.timeZoneId : "America/Los_Angeles";
+    var userType =  user && user.user && user.user.userType;
+    
     useEffect(() => {
         dispatch(getDashboard(truckStatus, dutyStatus, order, search))
         if (params.vehicleId) dispatch(getAssetDetail(params?.vehicleId))
@@ -255,7 +258,7 @@ const handleClickMapTerrain =() =>{
               {showHeader &&
                 <Sidebar handleClose ={open} />}
                 <div className={`main-content ${isMinimize === 'minimize' ? 'minimize-main' : ''}`}>
-                    <div className="page-content dashboard-page-content">
+                    <div className={userType === "company-administrator" ? "page-content dashboard-page-content company-admin" : "page-content dashboard-page-content"}>
                         <div className="container-fluid">
                             
                             <div className="row">

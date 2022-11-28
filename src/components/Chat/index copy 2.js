@@ -14,7 +14,26 @@ const Chat = () => {
     const [lastPong, setLastPong] = useState(null);
     const { isMinimize } = useSelector(state => state.dashboard)
   
-  
+    useEffect(() => {
+        socket.on('connect', () => {
+          setIsConnected(true);
+        });
+    
+        socket.on('disconnect', () => {
+          setIsConnected(false);
+        });
+    
+        socket.on('pong', () => {
+          setLastPong(new Date().toISOString());
+        });
+    
+        return () => {
+          socket.off('connect');
+          socket.off('disconnect');
+          socket.off('pong');
+        };
+      }, []);
+
       const sendPing = () => {
         socket.emit('ping');
         console.log("hello");

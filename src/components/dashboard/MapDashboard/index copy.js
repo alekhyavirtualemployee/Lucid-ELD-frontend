@@ -61,6 +61,7 @@ export const MapDashboard = ({ markers, setMaptypeId }) => {
       defaultCenter={defaultCenter}
       options={{
         mapTypeId: "hybrid",
+        
       }}
       onMapTypeIdChanged={onMapTypeIdChanged}
     >

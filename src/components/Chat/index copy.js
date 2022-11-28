@@ -1,24 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
 import Header from "../layout/Header"
 import Sidebar from "../layout/Sidebar"
 import { useSelector } from "react-redux";
-import io from 'socket.io-client';
-import useChat from '../../hook/useChat';
-const socket = io();
-const SOCKET_SERVER_URL = 'http://localhost:4000';
-const NEW_CHAT_EVENT = 'newChatMessage';
 
 const Chat = () => {
-    const { messages , sendMessage } = useChat(1)
-    const [isConnected, setIsConnected] = useState(socket.connected);
-    const [lastPong, setLastPong] = useState(null);
+
     const { isMinimize } = useSelector(state => state.dashboard)
-  
-  
-      const sendPing = () => {
-        socket.emit('ping');
-        console.log("hello");
-      }
+
     const pageHead = 'Chat'
 
     return (
@@ -190,9 +178,6 @@ const Chat = () => {
                                                     <a href="/"><i className="fas fa-video"></i></a>
                                                     <a href="/"><i className="fas fa-trash-alt"></i></a>
                                                     <a href="/"><i className="fas fa-ellipsis-v"></i></a> */}
-                                                    <p>Connected: {'' + isConnected}</p>
-                                                    <p>Last pong: {lastPong || '-'}</p>
-                                                    <button onClick={sendPing} type="button">Send ping</button>
                                                     <button className="urgent-notification">Send Urgent Notification <i className="ri-alarm-warning-line"></i></button>
                                                 </div>
                                             </div>
